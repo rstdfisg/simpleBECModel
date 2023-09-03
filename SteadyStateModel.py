@@ -1,11 +1,18 @@
 import numpy as np
-from scipy.integrate import simpson
+from scipy.integrate import simpson, romb
 from typing import Dict
 
 
 class BECModel:
 
-    def __init__(self, N: int = 2**8, L: float = 25.0, parameter_config: Dict = {}, rotating=False) -> None:
+    def __init__(
+        self,
+        N: int = 2**8,
+        L: float = 25.0,
+        parameter_config: Dict = {},
+        rotating: bool = False
+    ) -> None:
+
         self.N = N
         self.L = L
         self.dx = 2*L / (N - 1)
@@ -17,27 +24,14 @@ class BECModel:
             self.update_config(parameter_config)
 
         self.psi = np.zeros([N, N], np.complex128)
-        self.H_operator = self.create_H_operator(self.N, self.L, self.dx)
         self._init_approximation_wavefunction()
 
     @staticmethod
     def default_config():
 
-        h = 6.626*1e-34/(2*np.pi)
-        m = 1.44*1e-25
-        w = 219*2*np.pi/2**0.5
-
         config = {
             'd': 2,
-
-            "h": h,
-            "m": m,
-            "w": w,
-
-            "a": 5.1*1e-9,
-            "w0": 0.1001,
-            "a0": np.sqrt(h / (m*w)),
-            "N0": 1e5,
+            "w0": 0.1,
             "k": 1e2
         }
 
@@ -115,12 +109,10 @@ class BECModel:
     def update(self, steps, dt=1e-3):
 
         # Using gradient decent method to update energy functional.
-
         # Create a location coordinate reference for calculation.
         x = np.linspace(-self.L, self.L, self.N)
         xx, yy = np.meshgrid(x, x)
 
-        w0 = self.parameter_config['w0']
         k = self.parameter_config['k']
 
         if self.rotating == True:
@@ -133,7 +125,9 @@ class BECModel:
             abs_term = self.psi * k * np.abs(self.psi)**2
 
             if self.rotating == True:
+
                 # rotation operator apply on psi
+                w0 = self.parameter_config['w0']
                 rotate_term = -w0*(xx*(np.dot(D1, self.psi)) -
                                    yy*(np.dot(D1, self.psi.T).T))
 
@@ -147,8 +141,8 @@ class BECModel:
             np.subtract(self.psi, dpsi * dt, out=self.psi)
 
             # normalized coeffcient using 2d fixed point integration
-            C = simpson(np.abs(self.psi)**2, x=x)
-            C = simpson(C, x=x)
+            C = simpson(np.abs(self.psi)**2, x=x, dx=self.dx)
+            C = simpson(C, x=x, dx=self.dx)
 
             np.divide(self.psi, (C**0.5), out=self.psi)
 
