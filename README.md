@@ -12,7 +12,7 @@ $$
 $$
 
 $$
-E_{k,\Omega}(\phi) = \int_{R^{d}} [\frac{1}{2}|\nabla\phi|^{2} + V_{d}(r)|\phi|^{2} + \frac{k}{2} |\phi|^{4} - \Omega\phi^{*}L_{z}\phi]
+E_{k,\Omega}[\phi] = \int_{R^{d}} \left[ \frac{1}{2}|\nabla\phi|^{2} + V_{d}(r)|\phi|^{2} + \frac{k}{2} |\phi|^{4} - \Omega\phi^{*}L_{z}\phi \right]
 $$
 
 
