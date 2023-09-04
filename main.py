@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 import cupy
+import os
 
 
 def time_comparesion(psi):
@@ -51,6 +52,10 @@ def time_comparesion(psi):
     psi = time_model_cpu.update(t_s, T_final, dt=dt)
 
     print(f"CPU time elapsed: {time.time() - time_start} s. ")
+
+
+if not os.path.exists("./img"):
+    os.mkdir("./img")
 
 
 N = 512
