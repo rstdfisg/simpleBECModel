@@ -2,7 +2,7 @@
 
 This simulation shows the appearance of vortices in a rotating Bose-Einstein condensate. The entire simulation considers a two-dimensional anisotropic harmonic trap acting on a rotating plane. 
 
-<img src="https://github.com/rstdfisg/simpleBECModel/blob/main/vortex.png" width=20% height=20%> <img src="https://github.com/rstdfisg/simpleBECModel/blob/main/vortex.gif" width=20% height=20%>
+<img src="https://github.com/rstdfisg/simpleBECModel/blob/main/vortex.png" width=30%% height=30%> <img src="https://github.com/rstdfisg/simpleBECModel/blob/main/vortex.gif" width=50% height=50%>
 
 ### Ground state solution
 The time-independent dimensionless two-dimensional GPE can be solved using the **gradient descent method** to minimize the non-dimensional energy functional of the time-independent GPE.
